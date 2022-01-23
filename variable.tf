@@ -3,7 +3,7 @@ variable "props" {
     type = map(string)
     default = {
         region = "us-east-1"
-        account_id="886774924794"
+        account_id="123456789999"
     }
 } 
 

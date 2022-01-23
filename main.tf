@@ -7,16 +7,16 @@ terraform {
   }
   required_version = ">= 0.14.9"
 }
-
+# default profile
 provider "aws" {
   profile = "default"
   region  = lookup(var.props, "region")
 }
-
+# loading policies json
 data "local_file" "lambda_policy" {
   filename = "policy/policy.json"
 }
-
+# loading assumeRole json
 data "local_file" "lambda_assumeRole_policy" {
   filename = "policy/assumeRole.json"
 }
@@ -38,13 +38,13 @@ resource "aws_lambda_function" "function_ebs" {
   tags = var.tags
 }
 
-# iam role
+# iam role resource
 resource "aws_iam_role" "lambda_assumeRole_policy" {
   name = "ebsSnapshotPolicy"
   assume_role_policy = data.local_file.lambda_assumeRole_policy.content
 }
 
-# iam policy
+# iam policy resource
 resource "aws_iam_role_policy" "pol" {
   name = "policy"
   role = aws_iam_role.lambda_assumeRole_policy.id
