@@ -58,9 +58,17 @@ resource "aws_cloudwatch_event_rule" "event_rule" {
   schedule_expression = lookup(var.schedule, "start")
   is_enabled = true
 }
-
+# ----- EventBridge target ----- 
 resource "aws_cloudwatch_event_target" "target" {
   target_id = aws_lambda_function.function_ebs.id
   rule      = aws_cloudwatch_event_rule.event_rule.name
   arn       = aws_lambda_function.function_ebs.arn
+}
+# ----- Allow EventBridge to execute Lambda function ----- 
+resource "aws_lambda_permission" "function_ebs_permission" {
+  statement_id = "function_ebs_permission"
+  action = "lambda:InvokeFunction"
+  function_name = "${aws_lambda_function.function_ebs.function_name}"
+  principal = "events.amazonaws.com"
+  source_arn = "${aws_cloudwatch_event_rule.event_rule.arn}"
 }

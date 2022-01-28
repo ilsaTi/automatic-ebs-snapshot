@@ -20,7 +20,7 @@ def generate_tags(volumeId, tags):
         tag_final.append(tag)
             
     tag_final.append({'Key': 'Name', 'Value': f'snapshot-ebs-{volumeId}'})
-    tag_final.append({'Key': 'Source',  'Value': 'Généré automatiquement'})
+    tag_final.append({'Key': 'Source',  'Value': 'Automatically generated'})
     tag_final.append({'Key': TAG_KEY, 'Value': TAG_VALUE})
     tag_final.append({'Key': 'DateCreation', 'Value': f'{datetime.datetime.now()}'})
   
